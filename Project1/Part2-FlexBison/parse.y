@@ -4,12 +4,14 @@ int yylex();
 void yyerror(char* s);
 %}
 
+// Allows for int to be a possible data type for semantic values
 %union{
 int int_val;
 }
 
 %token T 
 %token F
+// Sets data types for nonterminals as int
 %type <int_val> expr
 %type <int_val> expr1
 %type <int_val> expr2
@@ -19,6 +21,7 @@ int int_val;
 
 %start program
 
+// Essentially uses 1 and 0 for true and false, respectively
 %%
 program : expr'.'	{ if($1)printf("T"); else printf("F"); }
 ;
