@@ -48,7 +48,7 @@ public class Parser {
  * <Program> :== <StmtList>. 
  *  On {a b c !} go to <StmtList>
  *  Afterward, check if the pointer points to a '.' and that nothing comes afterward
- *  Otherwise reject; Syntax Error
+ *  Otherwise reject; syntax error
  */
 	public void Program() {
 		// System.out.println("In program i = " + i);
@@ -60,18 +60,19 @@ public class Parser {
 			case '!':
 				StmtList();			// Now should point to a '.' and should be the last input
 				if(input[i] == '.' && i+1 == input.length) {
-					System.out.println("Success");
+					// System.out.println("Success");
+					System.exit(0);
 				}
 				else {
-					System.out.println("Syntax Error");
-					// System.out.println("Syntax Error: Doesn't end with a '.'");	
+					System.out.println("syntax error");
+					// System.out.println("syntax error: Doesn't end with a '.'");	
 					System.exit(1);
 				}
 				
 				break;
 			default:
-				System.out.println("Syntax Error");
-				// System.out.println("Syntax Error: Program Expecting [a-c] or ! ");
+				System.out.println("syntax error");
+				// System.out.println("syntax error: Program Expecting [a-c] or ! ");
 				System.exit(1);
 		}
 	}
@@ -79,7 +80,7 @@ public class Parser {
 /*
  * <StmtList> ::= <Stmt><NextStmt>
  * On {a b c !} go to <Stmt>; afterwards perform <NextStmt>
- * Otherwise reject; Syntax Error
+ * Otherwise reject; syntax error
  */
 	public void StmtList() {
 		// System.out.println("In stmtlist i = " + i);
@@ -95,8 +96,8 @@ public class Parser {
 				break;				// This essentially adds these methods into a stack where Stmt must finish first before NextStmt begins processing
 			
 			default:
-				System.out.println("Syntax Error");
-				// System.out.println("Syntax Error: StmtList Expecting [a-c] or ! ");
+				System.out.println("syntax error");
+				// System.out.println("syntax error: StmtList Expecting [a-c] or ! ");
 				System.exit(1);
 		}
 	}
@@ -105,7 +106,7 @@ public class Parser {
  * <NextStmt> ::= ;<StmtList> | epsilon
  * On {;}, "match" ';' by incrementing i; perform <StmtList>
  * On {.} (the result epsilon on <NextStmt>), complete NextStmt and return to wherever <NextStmt> was called from
- * Otherwise, reject; Syntax Error
+ * Otherwise, reject; syntax error
  */
 	public void NextStmt() {
 		// System.out.println("In nextstmt i = " + i);
@@ -121,8 +122,8 @@ public class Parser {
 				break;
 				
 			default:
-				System.out.println("Syntax Error");
-				// System.out.println("Syntax Error: NextStmt Expecting . or ;");
+				System.out.println("syntax error");
+				// System.out.println("syntax error: NextStmt Expecting . or ;");
 				System.exit(1);
 				break;
 		}				
@@ -132,7 +133,7 @@ public class Parser {
  *  <Stmt>	::= <Assign> | <Print>
  *  On {a b c} perform <Assign>
  *  On {!} perform <Print>
- *  Otherwise reject; Syntax Error
+ *  Otherwise reject; syntax error
  */
 	public void Stmt() {
 		// System.out.println("In stmt i = " + i);
@@ -150,8 +151,8 @@ public class Parser {
 				break;
 				
 			default:
-				System.out.println("Syntax Error");
-				// System.out.println("Syntax Error: Stmt Expecting [a-c] or !");
+				System.out.println("syntax error");
+				// System.out.println("syntax error: Stmt Expecting [a-c] or !");
 				System.exit(1);
 				break;
 		}	
@@ -171,8 +172,8 @@ public class Parser {
 			case 'a':
 				i++;				// match the 'a' match the '='
 				if(input[i] != '=') { 
-					System.out.println("Syntax Error");
-					// System.out.println("Syntax Error: Assign Expecting =");
+					System.out.println("syntax error");
+					// System.out.println("syntax error: Assign Expecting =");
 					System.exit(1);
 				}
 				i++;
@@ -183,8 +184,8 @@ public class Parser {
 			case 'b':
 				i++;				// match the 'a' match the '='
 				if(input[i] != '=') { 
-					System.out.println("Syntax Error");
-					// System.out.println("Syntax Error: Assign Expecting =");
+					System.out.println("syntax error");
+					// System.out.println("syntax error: Assign Expecting =");
 					System.exit(1);
 				}
 				i++;
@@ -195,8 +196,8 @@ public class Parser {
 			case 'c':
 				i++;				// match the 'a' match the '='
 				if(input[i] != '=') {
-					System.out.println("Syntax Error");
-					// System.out.println("Syntax Error: Assign Expecting =");
+					System.out.println("syntax error");
+					// System.out.println("syntax error: Assign Expecting =");
 					System.exit(1);
 				}
 				i++;
@@ -205,8 +206,8 @@ public class Parser {
 				break;
 				
 			default:
-				System.out.println("Syntax Error");
-				// System.out.println("Syntax Error: Assign Expecting [a-c]");
+				System.out.println("syntax error");
+				// System.out.println("syntax error: Assign Expecting [a-c]");
 				System.exit(1);
 				break;
 		}
@@ -215,7 +216,7 @@ public class Parser {
 /*
  * <Print>	::= !<Id>
  * On {i} match '!', i++, call <Id> to get the value at the register after '!'
- * Otherwise, reject; Syntax Error (Though at this point this is more for modularity; Stmt() has already matched '!")
+ * Otherwise, reject; syntax error (Though at this point this is more for modularity; Stmt() has already matched '!")
  */
 	public void Print() {
 		
@@ -233,8 +234,8 @@ public class Parser {
 //				break;
 //			
 //			default:				// Shouldn't ever get here in our program; No way to fail after Stmt() fails
-//				System.out.println("Syntax Error");	
-//				// System.out.println("Syntax Error: Print Expecting !");
+//				System.out.println("syntax error");	
+//				// System.out.println("syntax error: Print Expecting !");
 //				System.exit(1);
 //				break;
 //		}
@@ -249,7 +250,7 @@ public class Parser {
  * NOTE: THIS PROJECT ONLY DEALS WITH SINGLE DIGIT INTEGERS AS INPUT
  * NOTE: Both <Id> and <Const> can be performed at this level, but for modularity's sake it has been split
  * Afterwards, return the temp variable
- * Otherwise, reject; Syntax Error
+ * Otherwise, reject; syntax error
  */
 	public int Expr() {
 		// System.out.println("In expr i = " + i);
@@ -274,7 +275,7 @@ public class Parser {
 				num = Expr();
 				denom = Expr();
 				if(denom == 0) {	// Account for if the denominator is zero
-					System.out.println("Runtime Error");
+					System.out.println("exception");
 					// System.out.println("Runtime Error: Division By Zero");
 					System.exit(1);
 				}
@@ -298,8 +299,8 @@ public class Parser {
 				temp = Id();
 				break;
 			default:
-				System.out.println("Syntax Error");
-				// System.out.println("Syntax Error: Expr Expecting [0-9][a-c][+-/*]");
+				System.out.println("syntax error");
+				// System.out.println("syntax error: Expr Expecting [0-9][a-c][+-/*]");
 				// System.out.println(i + " is i; the array is " + input[i]);
 				System.exit(1);
 				break;
@@ -317,8 +318,8 @@ public class Parser {
 			temp = Integer.parseInt(input[i++] + "");
 		}
 		catch (NumberFormatException e){
-			System.out.println("Syntax Error");
-			//System.out.println("Syntax Error: Const Expecting [0-9]");
+			System.out.println("syntax error");
+			//System.out.println("syntax error: Const Expecting [0-9]");
 			System.exit(1);
 		}
 		return temp ;
@@ -328,13 +329,13 @@ public class Parser {
  * Retrieve the value at the register a, b or c
  */
 	public int Id() {
-		// Note that the if statements check if the variables were initialized; Syntax error if using a register that not initialized
+		// Note that the if statements check if the variables were initialized; syntax error if using a register that not initialized
 		switch(input[i]) {
 			case 'a':	
 				i++;
 				if(assignA == false ) {
-					System.out.println("Syntax Error");
-					// System.out.println("Syntax Error: Variable referenced without assignment");
+					System.out.println("exception");
+					// System.out.println("syntax error: Variable referenced without assignment");
 					System.exit(-1);
 				}
 				temp = a;
@@ -343,8 +344,8 @@ public class Parser {
 			case 'b':
 				i++;
 				if(assignB == false ) {
-					System.out.println("Syntax Error");
-					// System.out.println("Syntax Error: Variable referenced without assignment");
+					System.out.println("exception");
+					// System.out.println("syntax error: Variable referenced without assignment");
 					System.exit(-1);
 				}
 				temp = b;
@@ -353,14 +354,16 @@ public class Parser {
 			case 'c':
 				i++;
 				if(assignC == false ) {
-					System.out.println("Syntax Error");
-					// System.out.println("Syntax Error: Variable referenced without assignment");
+					System.out.println("exception");
+					// System.out.println("syntax error: Variable referenced without assignment");
 					System.exit(-1);
 				}
 				temp = c;
 				break;
+			default:
+				System.out.println("syntax error");
+				System.exit(-1);
 		}
 		return temp;				// Return the value at this register
 	}
 }
-
